@@ -19,18 +19,16 @@ namespace apiRest04292026.Controllers
 			new Producto { Id = 3, Nombre = "Torta de milanesa", Precio = 45.00m, Disponible = false }
 		};
 
-        //[HttpGet]
-        public IEnumerable<Producto> Get() => productos;
+        //public IEnumerable<Producto> Get() => productos;
+        public IHttpActionResult Get() => Ok(productos);
 
         public IHttpActionResult Get(int id)
         {
             var producto = productos.FirstOrDefault(p => p.Id == id);
-
+            //return producto == null ? NotFound() : Ok(producto);
             if (producto == null)
-                //throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
                 return NotFound();
-
-            return (IHttpActionResult)producto;
+            return Ok(producto);
         }
     }
 }
