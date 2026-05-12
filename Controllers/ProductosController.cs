@@ -30,5 +30,29 @@ namespace apiRest04292026.Controllers
                 return NotFound();
             return Ok(producto);
         }
+
+        [HttpPost]
+        public IHttpActionResult Post(Producto nuevoProducto)
+        {
+            if (nuevoProducto == null)
+                return BadRequest("El producto no puede ser nulo.");
+
+            // Validaciones básicas
+            if (string.IsNullOrWhiteSpace(nuevoProducto.Nombre))
+                return BadRequest("El nombre del producto es obligatorio.");
+
+            // Generar ID (simulación, ya que no hay BD)
+            nuevoProducto.Id = productos.Max(p => p.Id) + 1;
+
+            // Agregar a la lista
+            productos.Add(nuevoProducto);
+
+            // Responder con 201 Created y la ruta del nuevo recurso
+            return CreatedAtRoute(
+                "DefaultApi",
+                new { id = nuevoProducto.Id },
+                nuevoProducto
+            );
+        }
     }
 }
